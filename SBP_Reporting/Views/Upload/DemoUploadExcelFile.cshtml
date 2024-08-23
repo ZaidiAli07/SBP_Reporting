@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "DemoUploadExcelFile";
+}
+
+<h2>DemoUploadExcelFile</h2>
+
+<div class="container">
+    <form id="uploadForm" enctype="multipart/form-data" method="post" action="/Report/UploadFile">
+        <div class="form-group">
+            <label for="file">File</label>
+            <input type="file" id="fileInput" class="form-control" name="file">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Upload File</button>
+        </div>
+    </form>
+    <div id="uploadedFileSection" style="display: none;">
+        <h4>Uploaded File:</h4>
+        <div id="fileName"></div>
+        <a id="downloadLink" class="btn btn-secondary" href="#">Download File</a>
+    </div>
+</div>
+
+<script>document.getElementById('uploadForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+    git
+        var formData = new FormData(this);
+        fetch('/Report/UploadFile', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('uploadedFileSection').style.display = 'block';
+                document.getElementById('fileName').innerText = data.fileName;
+                document.getElementById('downloadLink').href = '/Report/DownloadFile?fileName=' + data.fileName;
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });</script>

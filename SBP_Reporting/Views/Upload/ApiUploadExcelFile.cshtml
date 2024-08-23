@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "ApiUploadExcelFile";
+}
+
+<h2>ApiUploadExcelFile</h2>
+
+@using (Html.BeginForm("UploadFile", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        <label for="fileInput">Upload Excel File</label>
+        <input type="file" name="file" id="fileInput" class="form-control small-file-input" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+}
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-info">
+        @ViewBag.Message
+    </div>
+}
+
+@if (ViewBag.FileName != null)
+{
+    <a href="@Url.Action("DownloadExcel", "FileUpload", new { fileName = ViewBag.FileName })" class="btn btn-success">Download File</a>
+}
